@@ -1,0 +1,38 @@
+{
+  "name": "Application",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Full Name"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "title": "Email"
+    },
+    "website": {
+      "type": "string",
+      "title": "Website"
+    },
+    "message": {
+      "type": "string",
+      "title": "Message"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewing",
+        "accepted",
+        "declined"
+      ],
+      "default": "new",
+      "title": "Status"
+    }
+  },
+  "required": [
+    "name",
+    "email"
+  ]
+}

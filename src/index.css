@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Albert+Sans:wght@300;400;500;600;700;800;900&family=Alegreya:wght@400;500;600;700&family=Rubik:wght@300;400;500;600;700&family=Passion+One:wght@400;700&display=swap');
+
+html {
+  scroll-behavior: smooth;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 30% 96%;
+    --foreground: 30 20% 10%;
+    --card: 38 25% 92%;
+    --card-foreground: 30 20% 10%;
+    --popover: 38 25% 92%;
+    --popover-foreground: 30 20% 10%;
+    --primary: 42 47% 40%;
+    --primary-foreground: 38 30% 97%;
+    --secondary: 38 20% 88%;
+    --secondary-foreground: 30 20% 10%;
+    --muted: 38 20% 88%;
+    --muted-foreground: 30 10% 45%;
+    --accent: 42 47% 40%;
+    --accent-foreground: 38 30% 97%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 38 20% 82%;
+    --input: 38 20% 82%;
+    --ring: 42 47% 40%;
+    --chart-1: 42 47% 40%;
+    --chart-2: 30 10% 45%;
+    --chart-3: 30 10% 30%;
+    --chart-4: 42 30% 55%;
+    --chart-5: 30 10% 70%;
+    --radius: 0.25rem;
+    --font-heading: 'Albert Sans', sans-serif;
+    --font-body: 'Albert Sans', sans-serif;
+    --font-display: 'Albert Sans', sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 40 42% 56%;
+    --sidebar-primary-foreground: 0 0% 2%;
+    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 40 42% 56%;
+
+    --obsidian: #050505;
+    --slate-surface: #1A1A1A;
+    --gold: #C5A059;
+    --platinum: #E6E6E6;
+    --lead: #888888;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-[#FAF7F2] text-[#1C1810] font-body antialiased;
+  }
+
+  ::selection {
+    background: rgba(184, 151, 58, 0.25);
+    color: #1C1810;
+  }
+}
+
+@layer utilities {
+  .text-gold {
+    color: #B8973A;
+  }
+  .bg-ivory {
+    background-color: #FAF7F2;
+  }
+  .bg-sand-surface {
+    background-color: #F0EBE1;
+  }
+  .border-gold {
+    border-color: #B8973A;
+  }
+  .text-espresso {
+    color: #1C1810;
+  }
+  .text-warm-muted {
+    color: #7A6E62;
+  }
+}
+
+@keyframes shimmer-border {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes draw-line {
+  from { height: 0; }
+  to { height: 100%; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes heartbeat {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
