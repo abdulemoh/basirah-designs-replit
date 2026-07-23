@@ -13,20 +13,20 @@ const FEATURES = [
 
 export default function PricingSection() {
   const prefersReducedMotion = useReducedMotion();
-  const [loadingPlan, setLoadingPlan] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleCheckout = async (plan) => {
+  const handleCheckout = async () => {
     if (window.self !== window.top) {
       alert("Checkout works only from a published app. Please open the app in a new tab.");
       return;
     }
-    setLoadingPlan(plan);
+    setLoading(true);
     try {
-      const response = await base44.functions.invoke("stripeCheckout", { plan });
+      const response = await base44.functions.invoke("stripeCheckout", {});
       window.location.href = response.data.url;
     } catch (error) {
       alert("Something went wrong. Please try again.");
-      setLoadingPlan(null);
+      setLoading(false);
     }
   };
 
@@ -111,21 +111,12 @@ export default function PricingSection() {
               )}
             </ul>
 
-            {/* JOIN buttons */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-              <button
-                onClick={() => handleCheckout("one_time")}
-                disabled={loadingPlan !== null}
-                className="py-4 bg-[#B8973A] text-[#FAF7F2] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#a5862f] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
-                {loadingPlan === "one_time" ? "Loading..." : "JOIN"}
-              </button>
-              <button
-                onClick={() => handleCheckout("subscription")}
-                disabled={loadingPlan !== null}
-                className="py-4 bg-[#B8973A] text-[#FAF7F2] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#a5862f] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
-                {loadingPlan === "subscription" ? "Loading..." : "JOIN"}
-              </button>
-            </div>
+            <button
+              onClick={handleCheckout}
+              disabled={loading}
+              className="w-full py-4 bg-[#B8973A] text-[#FAF7F2] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#a5862f] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
+              {loading ? "Loading..." : "JOIN"}
+            </button>
 
             <p className="text-center text-[#7A6E62] text-xs mt-6 font-body hidden">
               Limited availability — acceptance by review only

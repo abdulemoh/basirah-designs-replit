@@ -7,31 +7,23 @@ Deno.serve(async (req) => {
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const body = await req.json();
-    const { plan } = body;
-
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"));
-
-    const PRICE_MAP = {
-      subscription: "price_1TwB9IIOtUfemVMQYIJvKNvY",
-      one_time: "price_1TwB9IIOtUfemVMQCrUVEuTd"
-    };
-
-    const priceId = PRICE_MAP[plan];
-    if (!priceId) return Response.json({ error: 'Invalid plan' }, { status: 400 });
 
     const origin = req.headers.get("origin") || "http://localhost:3000";
 
     const session = await stripe.checkout.sessions.create({
-      mode: plan === "subscription" ? "subscription" : "payment",
-      line_items: [{ price: priceId, quantity: 1 }],
+      mode: "subscription",
+      line_items: [
+        { price: "price_1TwB9IIOtUfemVMQCrUVEuTd", quantity: 1 },
+        { price: "price_1TwB9IIOtUfemVMQYIJvKNvY", quantity: 1 }
+      ],
       success_url: `${origin}/?payment=success`,
       cancel_url: `${origin}/?payment=cancelled`,
       customer_email: user.email,
       metadata: {
         base44_app_id: Deno.env.get("BASE44_APP_ID"),
         user_id: user.id,
-        plan
+        plan: "standard"
       }
     });
 
