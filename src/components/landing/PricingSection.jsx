@@ -4,12 +4,12 @@ import { Check } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
 const FEATURES = [
-  "Bespoke website design & development",
-  "Premium cloud infrastructure",
-  "Professional email configuration",
-  "Continuous maintenance & updates",
-  "Enterprise-grade security",
-  "Priority dedicated support"];
+"Bespoke website design & development",
+"Premium cloud infrastructure",
+"Professional email configuration",
+"Continuous maintenance & updates",
+"Enterprise-grade security",
+"Priority dedicated support"];
 
 export default function PricingSection() {
   const prefersReducedMotion = useReducedMotion();
@@ -68,7 +68,7 @@ export default function PricingSection() {
                 Standard Plan
               </h2>
               <p className="text-[#7A6E62] text-sm font-body">
-                <span className="text-xs">A clean website consisting of 1-2 pages that displays business info and contact emails, already set up and handled for you. Includes a default maintenance plan that takes care of hosting your website, fixing bugs, performing requested changes, etc.</span>
+                <span className="text-xs">A clean website consisting of 4-5 pages that displays business info and contact emails, already set up and handled for you. Includes a default maintenance plan that takes care of hosting your website, fixing bugs, performing requested changes, etc.</span>
               </p>
             </div>
 
@@ -96,13 +96,13 @@ export default function PricingSection() {
             {/* Features */}
             <ul className="space-y-4 mb-10">
               {FEATURES.map((feature, i) =>
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: prefersReducedMotion ? 0 : i * 0.08, duration: 0.4 }}
-                  className="flex items-center gap-3">
+              <motion.li
+                key={i}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: prefersReducedMotion ? 0 : i * 0.08, duration: 0.4 }}
+                className="flex items-center gap-3">
                   <div className="w-5 h-5 rounded-full border border-[#B8973A]/50 flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-[#B8973A]" />
                   </div>
@@ -124,6 +124,6 @@ export default function PricingSection() {
           </div>
         </motion.div>
       </div>
-    </section>
-  );
+    </section>);
+
 }
