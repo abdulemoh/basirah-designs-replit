@@ -38,26 +38,10 @@ export default function Footer() {
 
         <div className="w-full h-px bg-[#E5DDD0] my-8" />
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[#7A6E62]/70 text-[11px] font-body hidden">
-            © {new Date().getFullYear()} Basirah Designs. All rights reserved.
+        <div className="flex items-center justify-center">
+          <p className="text-[#7A6E62]/70 text-[11px] font-body">
+            © {new Date().getFullYear()} Basirah Designs LLC. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            <a href="#admission" className="text-[#7A6E62]/70 text-[11px] font-body hover:text-[#B8973A] transition-colors duration-300
-                         focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] rounded-sm">
-              
-              
-              
-              Privacy Policy
-            </a>
-            <a href="#admission" className="text-[#7A6E62]/70 text-[11px] font-body hover:text-[#B8973A] transition-colors duration-300
-                         focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] rounded-sm">
-              
-              
-              
-              Terms of Service
-            </a>
-          </div>
         </div>
       </div>
     </footer>);
