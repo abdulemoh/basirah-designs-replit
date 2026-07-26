@@ -85,7 +85,7 @@ export default function PricingSection() {
 
               <div className="text-center p-4 border border-[#B8973A]/40 rounded-sm bg-[#B8973A]/[0.05] flex flex-col justify-between">
                 <p className="text-[#7A6E62] text-[9px] tracking-[0.3em] uppercase mb-3 font-body">Monthly Maintenance</p>
-                <span className="text-[#B8973A] font-body font-bold text-4xl md:text-5xl">$50</span>
+                <span className="text-[#B8973A] font-body font-bold text-4xl md:text-5xl">$79</span>
                 <p className="text-[#7A6E62] text-[10px] tracking-widest uppercase mt-3">Per Month</p>
               </div>
             </div>

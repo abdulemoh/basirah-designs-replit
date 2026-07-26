@@ -15,7 +15,7 @@ Deno.serve(async (req) => {
       mode: "subscription",
       line_items: [
         { price: "price_1TwB9IIOtUfemVMQCrUVEuTd", quantity: 1 },
-        { price: "price_1TwB9IIOtUfemVMQYIJvKNvY", quantity: 1 }
+        { price: "price_1Txa59IOtUfemVMQVvbz1EZi", quantity: 1 }
       ],
       success_url: `${origin}/?payment=success`,
       cancel_url: `${origin}/?payment=cancelled`,
