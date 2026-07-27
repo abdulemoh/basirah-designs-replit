@@ -40,7 +40,7 @@ export default function Footer() {
 
         <div className="flex items-center justify-center">
           <p className="text-[#7A6E62]/70 text-[11px] font-body">
-            © {new Date().getFullYear()} Basirah Designs LLC. All rights reserved.
+            © {new Date().getFullYear()} Basirah Designs
           </p>
         </div>
       </div>
