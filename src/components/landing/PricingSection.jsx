@@ -15,12 +15,12 @@ export default function PricingSection() {
   const prefersReducedMotion = useReducedMotion();
   const [loading, setLoading] = useState(false);
   const [portalLoading, setPortalLoading] = useState(false);
-  const [isMember, setIsMember] = useState(false);
+  const [hasSubscriptions, setHasSubscriptions] = useState(false);
 
   useEffect(() => {
-    base44.auth.me()
-      .then(user => setIsMember(user.membership_status === "active"))
-      .catch(() => setIsMember(false));
+    base44.functions.invoke("checkSubscriptionStatus", {})
+      .then(res => setHasSubscriptions(res.data.hasSubscriptions))
+      .catch(() => setHasSubscriptions(false));
   }, []);
 
   const handleCheckout = async () => {
@@ -145,7 +145,7 @@ export default function PricingSection() {
               {loading ? "Loading..." : "JOIN"}
             </button>
 
-            {isMember && (
+            {hasSubscriptions && (
               <button
                 onClick={handleManage}
                 disabled={portalLoading}
