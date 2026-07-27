@@ -14,6 +14,7 @@ const FEATURES = [
 export default function PricingSection() {
   const prefersReducedMotion = useReducedMotion();
   const [loading, setLoading] = useState(false);
+  const [portalLoading, setPortalLoading] = useState(false);
 
   const handleCheckout = async () => {
     if (window.self !== window.top) {
@@ -27,6 +28,25 @@ export default function PricingSection() {
     } catch (error) {
       alert("Something went wrong. Please try again.");
       setLoading(false);
+    }
+  };
+
+  const handleManage = async () => {
+    if (window.self !== window.top) {
+      alert("Subscription management works only from a published app. Please open the app in a new tab.");
+      return;
+    }
+    setPortalLoading(true);
+    try {
+      const response = await base44.functions.invoke("stripeCustomerPortal", {});
+      window.location.href = response.data.url;
+    } catch (error) {
+      setPortalLoading(false);
+      if (error?.response?.status === 404) {
+        alert("No subscription found for this account.");
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -118,9 +138,12 @@ export default function PricingSection() {
               {loading ? "Loading..." : "JOIN"}
             </button>
 
-            <p className="text-center text-[#7A6E62] text-xs mt-6 font-body hidden">
-              Limited availability — acceptance by review only
-            </p>
+            <button
+              onClick={handleManage}
+              disabled={portalLoading}
+              className="w-full py-3 text-[#7A6E62] text-xs tracking-[0.15em] uppercase font-body hover:text-[#B8973A] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] rounded-[10px] disabled:opacity-60">
+              {portalLoading ? "Loading..." : "Manage Subscription"}
+            </button>
           </div>
         </motion.div>
       </div>
