@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Check } from "lucide-react";
 import { base44 } from "@/api/base44Client";
@@ -15,6 +15,13 @@ export default function PricingSection() {
   const prefersReducedMotion = useReducedMotion();
   const [loading, setLoading] = useState(false);
   const [portalLoading, setPortalLoading] = useState(false);
+  const [isMember, setIsMember] = useState(false);
+
+  useEffect(() => {
+    base44.auth.me()
+      .then(user => setIsMember(user.membership_status === "active"))
+      .catch(() => setIsMember(false));
+  }, []);
 
   const handleCheckout = async () => {
     if (window.self !== window.top) {
@@ -138,12 +145,14 @@ export default function PricingSection() {
               {loading ? "Loading..." : "JOIN"}
             </button>
 
-            <button
-              onClick={handleManage}
-              disabled={portalLoading}
-              className="w-full py-3 text-[#7A6E62] text-xs tracking-[0.15em] uppercase font-body hover:text-[#B8973A] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] rounded-[10px] disabled:opacity-60">
-              {portalLoading ? "Loading..." : "Manage Subscription"}
-            </button>
+            {isMember && (
+              <button
+                onClick={handleManage}
+                disabled={portalLoading}
+                className="w-full py-3 text-[#7A6E62] text-xs tracking-[0.15em] uppercase font-body hover:text-[#B8973A] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] rounded-[10px] disabled:opacity-60">
+                {portalLoading ? "Loading..." : "Manage Subscription"}
+              </button>
+            )}
           </div>
         </motion.div>
       </div>

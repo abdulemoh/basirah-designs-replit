@@ -7,6 +7,15 @@
         "admin",
         "user"
       ]
+    },
+    "membership_status": {
+      "type": "string",
+      "title": "Membership Status",
+      "enum": [
+        "active",
+        "cancelled"
+      ],
+      "description": "Whether the user has an active Standard Plan membership"
     }
   },
   "required": [
