@@ -101,7 +101,7 @@ export default function ContactSection() {
  viewport={{ once: true }}
  transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: 0.5 }}
  className="text-[#7A6E62] text-sm md:text-base font-body font-light max-w-md md:pb-2">
- <span className="outline-none">If there is any system or detailing you would like to apply to your project, please let us know! A reference website works best for us! This is an onboarding form, so please feel free to express your ideas!</span>
+ <span className="outline-none">If there is any system or detailing you would like to apply to your project, please let us know! A reference website works best for us! This is an onboarding form, so please feel free to express your ideas! Questions can also be asked here in the form.</span>
  </motion.p>
  </div>
 
