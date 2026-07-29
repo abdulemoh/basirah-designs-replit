@@ -33,8 +33,7 @@ export default function PricingSection() {
       const response = await base44.functions.invoke("stripeCheckout", {});
       window.location.href = response.data.url;
     } catch (error) {
-      const msg = error?.response?.data?.error || "Something went wrong. Please try again.";
-      alert(msg);
+      alert("Something went wrong. Please try again.");
       setLoading(false);
     }
   };
@@ -140,13 +139,20 @@ export default function PricingSection() {
             </ul>
 
             <button
-              onClick={hasSubscriptions ? handleManage : handleCheckout}
-              disabled={hasSubscriptions ? portalLoading : loading}
+              onClick={handleCheckout}
+              disabled={loading}
               className="w-full py-4 bg-[#B8973A] text-[#FAF7F2] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#a5862f] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
-              {hasSubscriptions
-                ? (portalLoading ? "Loading..." : "Manage Subscription")
-                : (loading ? "Loading..." : "Join")}
+              {loading ? "Loading..." : "JOIN"}
             </button>
+
+            {hasSubscriptions && (
+              <button
+                onClick={handleManage}
+                disabled={portalLoading}
+                className="w-full py-3 text-[#7A6E62] text-xs tracking-[0.15em] uppercase font-body hover:text-[#B8973A] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] rounded-[10px] disabled:opacity-60">
+                {portalLoading ? "Loading..." : "Manage Subscription"}
+              </button>
+            )}
           </div>
         </motion.div>
       </div>
