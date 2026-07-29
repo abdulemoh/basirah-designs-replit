@@ -1,0 +1,59 @@
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
+
+export default async function(req: Request): Promise<Response> {
+  try {
+    const base44 = createClientFromRequest(req);
+    const { name, email, website, message } = await req.json();
+
+    const adminEmail = "abdullah.mohiuddin90@gmail.com";
+    const subject = `New Project Application from ${name}`;
+
+    const htmlBody = `
+    <div style="background-color: #FAF7F2; padding: 40px 20px; font-family: Arial, sans-serif;">
+      <div style="max-width: 560px; margin: 0 auto; background-color: #F5F0E8; border: 1px solid #E5DDD0; border-radius: 12px; overflow: hidden;">
+        <div style="background-color: #1C1810; padding: 32px 40px;">
+          <p style="color: #B8973A; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; margin: 0 0 8px 0;">Basirah Designs</p>
+          <h1 style="color: #FAF7F2; font-size: 24px; font-weight: 300; margin: 0;">New Project Application</h1>
+        </div>
+        <div style="padding: 40px;">
+          <p style="color: #7A6E62; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 24px 0;">Applicant Details</p>
+          <div style="background-color: #FAF7F2; border: 1px solid #DDD4C0; border-radius: 8px; padding: 24px; margin-bottom: 24px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="color: #7A6E62; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 0; width: 100px;">Name</td>
+                <td style="color: #1C1810; font-size: 16px; font-weight: 600; padding: 8px 0;">${name || "—"}</td>
+              </tr>
+              <tr>
+                <td style="color: #7A6E62; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 0;">Email</td>
+                <td style="color: #1C1810; font-size: 16px; padding: 8px 0;"><a href="mailto:${email}" style="color: #B8973A; text-decoration: none;">${email || "—"}</a></td>
+              </tr>
+              <tr>
+                <td style="color: #7A6E62; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 0;">Website</td>
+                <td style="color: #1C1810; font-size: 16px; padding: 8px 0;">${website || "None provided"}</td>
+              </tr>
+            </table>
+          </div>
+          <p style="color: #7A6E62; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 16px 0;">Project Details</p>
+          <div style="background-color: #FAF7F2; border: 1px solid #DDD4C0; border-radius: 8px; padding: 24px;">
+            <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0;">${message || "No additional details provided."}</p>
+          </div>
+        </div>
+        <div style="border-top: 1px solid #E5DDD0; padding: 24px 40px; text-align: center;">
+          <p style="color: #7A6E62; font-size: 11px; margin: 0;">&copy; ${new Date().getFullYear()} Basirah Designs &mdash; High-quality web design for the uncompromising few.</p>
+        </div>
+      </div>
+    </div>`;
+
+    await base44.asServiceRole.integrations.Core.SendEmail({
+      to: adminEmail,
+      subject: subject,
+      body: htmlBody,
+      from_name: "Basirah Designs"
+    });
+
+    return Response.json({ success: true });
+  } catch (error) {
+    console.error("Application alert email error:", error);
+    return Response.json({ error: error.message }, { status: 500 });
+  }
+}

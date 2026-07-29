@@ -1,0 +1,43 @@
+{
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "create"
+      ],
+      "entity_name": "Application"
+    }
+  },
+  "name": "Application Alert Email",
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "application_alert_email",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "send_alert": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "sendApplicationAlert",
+            "args": {
+              "name": "${ .trigger.data.name }",
+              "email": "${ .trigger.data.email }",
+              "website": "${ .trigger.data.website }",
+              "message": "${ .trigger.data.message }"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Send alert email",
+            "description": "Notify admin of new application"
+          }
+        }
+      }
+    ]
+  },
+  "description": "Sends a themed email alert to the admin when a new application is submitted"
+}

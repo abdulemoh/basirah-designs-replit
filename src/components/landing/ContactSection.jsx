@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useToast } from "@/components/ui/use-toast";
-
-const WEB3FORMS_ACCESS_KEY = "a238995b-c445-49bf-a291-6002ac4a4721";
+import { base44 } from "@/api/base44Client";
 
 export default function ContactSection() {
  const prefersReducedMotion = useReducedMotion();
@@ -20,26 +19,14 @@ export default function ContactSection() {
  if (!form.name || !form.email) return;
  setSubmitting(true);
  try {
- const res = await fetch("https://api.web3forms.com/submit", {
- method: "POST",
- headers: { "Content-Type": "application/json", Accept: "application/json" },
- body: JSON.stringify({
- access_key: WEB3FORMS_ACCESS_KEY,
- subject: "New Project Application — Basirah Designs",
- from_name: "Basirah Designs Website",
+ await base44.functions.invoke("submitApplication", {
  name: form.name,
  email: form.email,
  website: form.website,
  message: form.message
- })
  });
- const data = await res.json();
- if (data.success) {
  setSubmitted(true);
  toast({ title: "Application Received", description: "We'll be in touch within 48 hours." });
- } else {
- throw new Error(data.message || "Submission failed");
- }
  } catch (err) {
  toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });
  } finally {
