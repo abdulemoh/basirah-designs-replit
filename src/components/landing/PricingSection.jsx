@@ -33,7 +33,8 @@ export default function PricingSection() {
       const response = await base44.functions.invoke("stripeCheckout", {});
       window.location.href = response.data.url;
     } catch (error) {
-      alert("Something went wrong. Please try again.");
+      const msg = error?.response?.data?.error || "Something went wrong. Please try again.";
+      alert(msg);
       setLoading(false);
     }
   };
