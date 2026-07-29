@@ -9,6 +9,18 @@ Deno.serve(async (req) => {
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"));
 
+    // Prevent duplicate subscriptions — one active subscription per Google account
+    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+    if (customers.data.length > 0) {
+      const subscriptions = await stripe.subscriptions.list({
+        customer: customers.data[0].id,
+        status: 'active',
+      });
+      if (subscriptions.data.length > 0) {
+        return Response.json({ error: 'You already have an active subscription. Use a different Google account to purchase another.' }, { status: 409 });
+      }
+    }
+
     const origin = req.headers.get("origin") || "http://localhost:3000";
 
     const session = await stripe.checkout.sessions.create({
