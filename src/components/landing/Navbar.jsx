@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import ProfileDropdown from "./ProfileDropdown";
 
 const links = [
   { label: "The Plan", href: "#pricing" },
@@ -66,6 +67,7 @@ export default function Navbar() {
               className="px-5 py-2.5 bg-[#B8973A] text-[#FAF7F2] tracking-[0.2em] uppercase font-body font-semibold hover:bg-[#a5862f] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[40px] flex items-center rounded-2xl text-xs">
               Start a Project
             </a>
+            <ProfileDropdown />
           </div>
 
           {/* Mobile/tablet toggle */}
@@ -117,6 +119,8 @@ export default function Navbar() {
               className="text-[#7A6E62] text-sm font-body tracking-widest hover:text-[#B8973A] transition-colors duration-300">
               859-447-5611
             </a>
+
+            <ProfileDropdown />
           </motion.div>
         }
       </AnimatePresence>
