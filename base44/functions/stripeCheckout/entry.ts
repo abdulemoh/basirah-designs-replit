@@ -21,7 +21,17 @@ Deno.serve(async (req) => {
       }
     }
 
-    const origin = req.headers.get("origin") || "http://localhost:3000";
+    const allowedOrigins = [
+      "https://basirahdesigns.com",
+      Deno.env.get("BASE44_APP_URL"),
+      "http://localhost:3000",
+      "http://localhost:5173"
+    ].filter(Boolean) as string[];
+
+    const requestOrigin = req.headers.get("origin");
+    const origin = requestOrigin && allowedOrigins.includes(requestOrigin)
+      ? requestOrigin
+      : (Deno.env.get("BASE44_APP_URL") || "http://localhost:3000");
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",

@@ -5,6 +5,19 @@ export default async function(req: Request): Promise<Response> {
     const base44 = createClientFromRequest(req);
     const { name, email, website, message } = await req.json();
 
+    const escapeHtml = (str: string): string =>
+      String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const safeName = escapeHtml(name || "—");
+    const safeEmail = escapeHtml(email || "—");
+    const safeWebsite = escapeHtml(website || "None provided");
+    const safeMessage = escapeHtml(message || "No additional details provided.");
+
     const adminEmail = "abdullah.mohiuddin90@gmail.com";
     const subject = `New Project Application from ${name}`;
 
@@ -21,21 +34,21 @@ export default async function(req: Request): Promise<Response> {
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
                 <td style="color: #7A6E62; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 0; width: 100px;">Name</td>
-                <td style="color: #1C1810; font-size: 16px; font-weight: 600; padding: 8px 0;">${name || "—"}</td>
+                <td style="color: #1C1810; font-size: 16px; font-weight: 600; padding: 8px 0;">${safeName}</td>
               </tr>
               <tr>
                 <td style="color: #7A6E62; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 0;">Email</td>
-                <td style="color: #1C1810; font-size: 16px; padding: 8px 0;"><a href="mailto:${email}" style="color: #B8973A; text-decoration: none;">${email || "—"}</a></td>
+                <td style="color: #1C1810; font-size: 16px; padding: 8px 0;"><a href="mailto:${safeEmail}" style="color: #B8973A; text-decoration: none;">${safeEmail}</a></td>
               </tr>
               <tr>
                 <td style="color: #7A6E62; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 0;">Website</td>
-                <td style="color: #1C1810; font-size: 16px; padding: 8px 0;">${website || "None provided"}</td>
+                <td style="color: #1C1810; font-size: 16px; padding: 8px 0;">${safeWebsite}</td>
               </tr>
             </table>
           </div>
           <p style="color: #7A6E62; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 16px 0;">Project Details</p>
           <div style="background-color: #FAF7F2; border: 1px solid #DDD4C0; border-radius: 8px; padding: 24px;">
-            <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0;">${message || "No additional details provided."}</p>
+            <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0;">${safeMessage}</p>
           </div>
         </div>
         <div style="border-top: 1px solid #E5DDD0; padding: 24px 40px; text-align: center;">
