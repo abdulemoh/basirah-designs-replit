@@ -19,7 +19,8 @@ export default function Footer() {
             { label: "The Plan", href: "#pricing" },
             { label: "Services", href: "#services" },
             { label: "Process", href: "#process" },
-            { label: "Apply", href: "#admission" }].
+            { label: "Apply", href: "#admission" },
+            { label: "Privacy Policy", href: "/privacy-policy" }].
             map((link) =>
             <a
               key={link.href}
@@ -40,7 +41,7 @@ export default function Footer() {
 
         <div className="flex items-center justify-center">
           <p className="text-[#7A6E62]/70 text-[11px] font-body">
-            © {new Date().getFullYear()} Basirah Designs
+            © {new Date().getFullYear()} Basirah Designs. All Rights Reserved.
           </p>
         </div>
       </div>
