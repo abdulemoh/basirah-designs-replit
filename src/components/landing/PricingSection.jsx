@@ -36,7 +36,7 @@ export default function PricingSection() {
       setLoading(false);
       const status = error?.response?.status;
       if (status === 401) {
-        base44.auth.redirectToLogin(window.location.pathname);
+        window.location.href = "/login";
       } else if (status === 409) {
         alert("You already have an active subscription. Use a different Google account to purchase another.");
       } else {
