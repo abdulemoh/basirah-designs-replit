@@ -3,6 +3,14 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
 export default async function(req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
+
+    // Only allow authenticated platform calls (e.g. the workflow trigger).
+    // Anonymous external HTTP requests are rejected.
+    const isAuthed = await base44.auth.isAuthenticated();
+    if (!isAuthed) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { name, email, website, message } = await req.json();
 
     const escapeHtml = (str: string): string =>
