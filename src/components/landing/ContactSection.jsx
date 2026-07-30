@@ -28,7 +28,12 @@ export default function ContactSection() {
  setSubmitted(true);
  toast({ title: "Application Received", description: "We'll be in touch within 48 hours." });
  } catch (err) {
+ const status = err?.response?.status;
+ if (status === 429) {
+ toast({ title: "Please wait", description: "You've just submitted an application. Try again in a few minutes.", variant: "destructive" });
+ } else {
  toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });
+ }
  } finally {
  setSubmitting(false);
  }
