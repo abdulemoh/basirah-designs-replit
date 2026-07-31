@@ -14,6 +14,10 @@ const FAQS = [
   {
     q: "Where can I ask questions or submit information about my website and how I want it to be built?",
     a: "Right here — use the onboarding form below. It's designed for you to share your vision, ask questions, and provide details about how you'd like your website built. A reference website helps us get it just right."
+  },
+  {
+    q: "How long does a typical project take from start to finish?",
+    a: "It will take from a week to a month. This timeframe allows us to ensure the quality and attention to detail your website deserves, while keeping your project moving forward efficiently."
   }
 ];
 
