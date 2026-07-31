@@ -4,6 +4,7 @@ import HeroSection from "@/components/landing/HeroSection";
 import PricingSection from "@/components/landing/PricingSection";
 import ServicesGrid from "@/components/landing/ServicesGrid";
 import ProcessSection from "@/components/landing/ProcessSection";
+import FAQSection from "@/components/landing/FAQSection";
 import ContactSection from "@/components/landing/ContactSection";
 import Footer from "@/components/landing/Footer";
 
@@ -15,6 +16,7 @@ export default function Home() {
       <PricingSection />
       <ServicesGrid />
       <ProcessSection />
+      <FAQSection />
       <ContactSection />
       <Footer />
     </div>
