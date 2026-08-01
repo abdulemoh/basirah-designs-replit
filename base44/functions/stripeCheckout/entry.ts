@@ -10,7 +10,7 @@ Deno.serve(async (req) => {
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const { type, website_name } = await req.json();
+    const { type, website_name, origin: clientOrigin } = await req.json();
     if (!type || !["build", "subscription"].includes(type)) {
       return Response.json({ error: 'Invalid purchase type' }, { status: 400 });
     }
@@ -42,9 +42,11 @@ Deno.serve(async (req) => {
     ].filter(Boolean) as string[];
 
     const requestOrigin = req.headers.get("origin");
-    const origin = requestOrigin && allowedOrigins.includes(requestOrigin)
-      ? requestOrigin
-      : (Deno.env.get("BASE44_APP_URL") || "http://localhost:3000");
+    const origin = (clientOrigin && allowedOrigins.includes(clientOrigin))
+      ? clientOrigin
+      : (requestOrigin && allowedOrigins.includes(requestOrigin)
+        ? requestOrigin
+        : (Deno.env.get("BASE44_APP_URL") || "http://localhost:3000"));
 
     const isBuild = type === "build";
     const session = await stripe.checkout.sessions.create({

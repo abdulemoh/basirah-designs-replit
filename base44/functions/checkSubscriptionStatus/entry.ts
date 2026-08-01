@@ -6,12 +6,15 @@ export default async function(req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
-    if (!user) return Response.json({ hasSubscriptions: false, count: 0 });
+    if (!user) return Response.json({ hasSubscriptions: false, count: 0, buildFeePaid: false });
+
+    // Read the fresh user record for an authoritative build_fee_paid value
+    const freshUser = await base44.asServiceRole.entities.User.get(user.id);
 
     const stripe = new Stripe(secrets.get("STRIPE_SECRET_KEY"));
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     if (customers.data.length === 0) {
-      return Response.json({ hasSubscriptions: false, count: 0 });
+      return Response.json({ hasSubscriptions: false, count: 0, buildFeePaid: !!freshUser?.build_fee_paid });
     }
 
     const subscriptions = await stripe.subscriptions.list({
@@ -22,10 +25,10 @@ export default async function(req: Request): Promise<Response> {
     return Response.json({
       hasSubscriptions: subscriptions.data.length > 0,
       count: subscriptions.data.length,
-      buildFeePaid: !!user.build_fee_paid
+      buildFeePaid: !!freshUser?.build_fee_paid
     });
   } catch (error) {
     console.error("Check subscription status error:", error);
-    return Response.json({ hasSubscriptions: false, count: 0 });
+    return Response.json({ hasSubscriptions: false, count: 0, buildFeePaid: false });
   }
 }

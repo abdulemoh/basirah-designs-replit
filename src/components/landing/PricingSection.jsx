@@ -42,7 +42,7 @@ export default function PricingSection() {
     }
     setLoading(type);
     try {
-      const response = await base44.functions.invoke("stripeCheckout", { type, website_name: websiteName.trim() });
+      const response = await base44.functions.invoke("stripeCheckout", { type, website_name: websiteName.trim(), origin: window.location.origin });
       window.location.href = response.data.url;
     } catch (error) {
       setLoading(null);
