@@ -13,9 +13,10 @@ const FEATURES = [
 
 export default function PricingSection() {
   const prefersReducedMotion = useReducedMotion();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(null);
   const [portalLoading, setPortalLoading] = useState(false);
   const [hasSubscriptions, setHasSubscriptions] = useState(false);
+  const [websiteName, setWebsiteName] = useState("");
 
   useEffect(() => {
     base44.functions.invoke("checkSubscriptionStatus", {})
@@ -23,17 +24,21 @@ export default function PricingSection() {
       .catch(() => setHasSubscriptions(false));
   }, []);
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (type) => {
+    if (!websiteName.trim()) {
+      alert("Please enter your website name before purchasing.");
+      return;
+    }
     if (window.self !== window.top) {
       alert("Checkout works only from a published app. Please open the app in a new tab.");
       return;
     }
-    setLoading(true);
+    setLoading(type);
     try {
-      const response = await base44.functions.invoke("stripeCheckout", {});
+      const response = await base44.functions.invoke("stripeCheckout", { type, website_name: websiteName.trim() });
       window.location.href = response.data.url;
     } catch (error) {
-      setLoading(false);
+      setLoading(null);
       const status = error?.response?.status;
       if (status === 401) {
         window.location.href = "/login";
@@ -147,21 +152,49 @@ export default function PricingSection() {
               )}
             </ul>
 
-            {hasSubscriptions ? (
+            {/* Website name */}
+            <div className="mb-6">
+              <label className="block text-[#7A6E62] text-[10px] tracking-[0.3em] uppercase font-body mb-3">
+                What is your website called?
+              </label>
+              <input
+                type="text"
+                value={websiteName}
+                onChange={(e) => setWebsiteName(e.target.value)}
+                placeholder="e.g. My Bakery"
+                className="w-full px-4 py-3 bg-[#FAF7F2] border border-[#DDD4C0] rounded-sm text-[#1C1810] text-sm font-body focus:outline-none focus:border-[#B8973A] focus:ring-1 focus:ring-[#B8973A] transition-colors"
+              />
+            </div>
+
+            {/* Payment buttons */}
+            <div className="grid grid-cols-1 gap-3">
               <button
-                onClick={handleManage}
-                disabled={portalLoading}
+                onClick={() => handleCheckout("build")}
+                disabled={loading !== null}
                 className="w-full py-4 bg-[#B8973A] text-[#FAF7F2] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#a5862f] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
-                {portalLoading ? "Loading..." : "MANAGE SUBSCRIPTION"}
+                {loading === "build" ? "Loading..." : "PAY BUILD FEE — $1,000"}
               </button>
-            ) : (
-              <button
-                onClick={handleCheckout}
-                disabled={loading}
-                className="w-full py-4 bg-[#B8973A] text-[#FAF7F2] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#a5862f] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
-                {loading ? "Loading..." : "JOIN"}
-              </button>
-            )}
+
+              {hasSubscriptions ? (
+                <button
+                  onClick={handleManage}
+                  disabled={portalLoading}
+                  className="w-full py-4 bg-transparent border border-[#B8973A] text-[#B8973A] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#B8973A]/10 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
+                  {portalLoading ? "Loading..." : "MANAGE SUBSCRIPTION"}
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleCheckout("subscription")}
+                  disabled={loading !== null}
+                  className="w-full py-4 bg-transparent border border-[#B8973A] text-[#B8973A] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#B8973A]/10 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
+                  {loading === "subscription" ? "Loading..." : "START SUBSCRIPTION — $79/MO"}
+                </button>
+              )}
+            </div>
+
+            <p className="text-[#7A6E62] text-[11px] font-body font-light text-center mt-4 leading-snug">
+              These are purchased separately — pay the build fee and start the monthly service whenever you're ready.
+            </p>
           </div>
         </motion.div>
       </div>
