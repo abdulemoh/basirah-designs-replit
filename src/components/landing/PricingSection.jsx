@@ -112,15 +112,17 @@ export default function PricingSection() {
             {/* Pricing blocks */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8 items-stretch">
               <div className="text-center p-4 border border-[#DDD4C0] rounded-sm bg-[#FAF7F2] flex flex-col justify-between">
-                <p className="text-[#7A6E62] text-[9px] tracking-[0.3em] uppercase mb-3 font-body text-center px-5">STANDARD FEE</p>
+                <p className="text-[#7A6E62] text-[9px] tracking-[0.3em] uppercase mb-3 font-body text-center px-5">INITIAL BUILD &amp; SETUP</p>
                 <span className="text-[#B8973A] font-body font-bold text-4xl md:text-5xl">$1,000</span>
                 <p className="text-[#7A6E62] text-[10px] tracking-widest uppercase mt-3">One-Time</p>
+                <p className="text-[#7A6E62] text-[11px] font-body font-light mt-2 leading-snug">Professional design, development, and launch of your bespoke website.</p>
               </div>
 
               <div className="text-center p-4 border border-[#B8973A]/40 rounded-sm bg-[#B8973A]/[0.05] flex flex-col justify-between">
-                <p className="text-[#7A6E62] text-[9px] tracking-[0.3em] uppercase mb-3 font-body">Monthly Maintenance</p>
+                <p className="text-[#7A6E62] text-[9px] tracking-[0.3em] uppercase mb-3 font-body">MONTHLY MANAGED SERVICE</p>
                 <span className="text-[#B8973A] font-body font-bold text-4xl md:text-5xl">$79</span>
                 <p className="text-[#7A6E62] text-[10px] tracking-widest uppercase mt-3">Per Month</p>
+                <p className="text-[#7A6E62] text-[11px] font-body font-light mt-2 leading-snug">Hosting, security, bug fixes, and requested updates.</p>
               </div>
             </div>
 
