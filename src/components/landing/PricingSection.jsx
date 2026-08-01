@@ -50,7 +50,8 @@ export default function PricingSection() {
       if (status === 401) {
         window.location.href = "/login";
       } else if (status === 409) {
-        alert("You already have an active subscription. Use a different Google account to purchase another.");
+        const msg = error?.response?.data?.error || "You already have an active subscription. Use a different Google account to purchase another.";
+        alert(msg);
       } else {
         alert("Something went wrong. Please try again.");
       }

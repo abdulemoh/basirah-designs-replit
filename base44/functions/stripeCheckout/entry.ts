@@ -20,6 +20,28 @@ Deno.serve(async (req) => {
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"));
 
+    // The $1,000 build fee is a one-time purchase — block repeats per account/email
+    if (type === "build") {
+      const freshUser = await base44.asServiceRole.entities.User.get(user.id);
+      if (freshUser?.build_fee_paid) {
+        return Response.json({ error: 'Build fee already paid for this account.' }, { status: 409 });
+      }
+      const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+      if (customers.data.length > 0) {
+        const sessions = await stripe.checkout.sessions.list({
+          customer: customers.data[0].id,
+          status: 'complete',
+          limit: 100,
+        });
+        const alreadyPaidBuild = sessions.data.some(s => s.metadata?.type === "build");
+        if (alreadyPaidBuild) {
+          // Sync the flag in case the webhook missed it, then block
+          await base44.asServiceRole.entities.User.update(user.id, { build_fee_paid: true });
+          return Response.json({ error: 'Build fee already paid for this account.' }, { status: 409 });
+        }
+      }
+    }
+
     // Prevent duplicate subscriptions — one active subscription per Google account
     if (type === "subscription") {
       const customers = await stripe.customers.list({ email: user.email, limit: 1 });
