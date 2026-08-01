@@ -63,8 +63,8 @@ export default function ProfileDropdown() {
                   )}
                 </div>
               </div>
-              {userInfo?.membership_status && (
-                <div className="mt-3 flex items-center gap-2">
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                {userInfo?.membership_status && (
                   <span className={`text-[10px] tracking-[0.2em] uppercase font-body px-2 py-1 rounded-full ${
                     userInfo.membership_status === "active"
                       ? "bg-[#B8973A]/10 text-[#B8973A]"
@@ -72,8 +72,13 @@ export default function ProfileDropdown() {
                   }`}>
                     {userInfo.membership_status === "active" ? "Active Member" : "Inactive"}
                   </span>
-                </div>
-              )}
+                )}
+                {userInfo?.build_fee_paid && (
+                  <span className="text-[10px] tracking-[0.2em] uppercase font-body px-2 py-1 rounded-full bg-[#B8973A]/15 text-[#B8973A] border border-[#B8973A]/30">
+                    Build Fee PAID
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Sign out */}
