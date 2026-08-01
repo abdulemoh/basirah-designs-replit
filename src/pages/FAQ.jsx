@@ -9,12 +9,12 @@ const FAQS = [
   {
     category: "Ownership & Hosting",
     q: "Do I get to own the website?",
-    a: "No — we handle it all for you and save you the headache. With our included hosting plan, we manage the infrastructure, hosting, and ongoing upkeep so your site stays online and secure without you lifting a finger."
+    a: "No, instead we handle it all for you and save you the headache. With our included hosting plan, we manage the infrastructure, hosting, and ongoing upkeep so your site stays online and secure without you lifting a finger."
   },
   {
     category: "Ownership & Hosting",
-    q: "Can I migrate my website to another hosting provider later?",
-    a: "Our Standard Plan is built around our managed hosting and maintenance experience. If your needs change, contact us and we'll discuss the best path forward for your project."
+    q: "Am I able to get a refund if I don't want the website?",
+    a: "No, you cannot get a refund. Because each website is custom-built to your specifications from the start, the work performed cannot be undone, and all sales are final."
   },
   {
     category: "Ownership & Hosting",
@@ -29,7 +29,7 @@ const FAQS = [
   {
     category: "Maintenance & Support",
     q: "What happens to my website if I stop paying the monthly maintenance fee?",
-    a: "If you pause or cancel maintenance, your website may continue to run but will no longer receive updates, bug fixes, or priority support. We'll always reach out before anything is taken offline."
+    a: "Your website will ultimately stop running, and you will no longer receive updates, bug fixes, or priority support. We'll make sure to notify you if this happens."
   },
   {
     category: "Maintenance & Support",
@@ -55,11 +55,6 @@ const FAQS = [
     category: "Project Timeline & Process",
     q: "Can I request revisions during the design process?",
     a: "Absolutely. We work iteratively and share progress along the way, so you'll have opportunities to request adjustments before we finalize your site."
-  },
-  {
-    category: "Design & Branding",
-    q: "Do you offer custom logo design or branding services?",
-    a: "Our Standard Plan focuses on the website itself. If you need logo design or full branding work, mention it in your application and we'll let you know what we can do."
   },
   {
     category: "Design & Branding",
