@@ -8,9 +8,8 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <p className="font-body text-xl text-[#1C1810] font-semibold italic mb-1">Basirah Designs</p>
-            <p className="text-[#7A6E62] text-xs font-body">High-quality web design for the uncompromising few.
-
-            </p>
+            <p className="text-[#7A6E62] text-xs font-body">High-quality web design for the uncompromising few.</p>
+            <p className="text-[#7A6E62] text-xs font-body mt-1">LEX, KY</p>
           </div>
 
           {/* Nav links */}
