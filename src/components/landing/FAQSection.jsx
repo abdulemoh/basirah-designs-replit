@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
-import { Plus } from "lucide-react";
+import { Plus, ArrowRight } from "lucide-react";
 
 const FAQS = [
   {
@@ -90,6 +91,23 @@ export default function FAQSection() {
             );
           })}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
+          className="mt-6">
+          <Link
+            to="/faq"
+            className="group flex items-center justify-between gap-4 border border-[#B8973A]/40 rounded-xl bg-[#B8973A]/[0.05] p-6 md:p-7 hover:bg-[#B8973A]/[0.1] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2]">
+            <div>
+              <p className="text-[#B8973A] text-[9px] tracking-[0.4em] uppercase font-body mb-1">Still curious?</p>
+              <span className="font-body font-semibold text-lg text-[#1C1810]">View all frequently asked questions</span>
+            </div>
+            <ArrowRight className="w-5 h-5 text-[#B8973A] flex-shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
