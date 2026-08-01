@@ -34,19 +34,10 @@ Deno.serve(async (req) => {
       }
     }
 
-    const allowedOrigins = [
-      "https://basirahdesigns.com",
-      Deno.env.get("BASE44_APP_URL"),
-      "http://localhost:3000",
-      "http://localhost:5173"
-    ].filter(Boolean) as string[];
-
     const requestOrigin = req.headers.get("origin");
-    const origin = (clientOrigin && allowedOrigins.includes(clientOrigin))
-      ? clientOrigin
-      : (requestOrigin && allowedOrigins.includes(requestOrigin)
-        ? requestOrigin
-        : (Deno.env.get("BASE44_APP_URL") || "http://localhost:3000"));
+    // Return the user to the exact page they started on. window.location.origin
+    // comes from their own browser, so it's safe to trust for the success/cancel URLs.
+    const origin = clientOrigin || requestOrigin || Deno.env.get("BASE44_APP_URL") || "http://localhost:3000";
 
     const isBuild = type === "build";
     const session = await stripe.checkout.sessions.create({
