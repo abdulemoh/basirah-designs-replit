@@ -19,7 +19,11 @@ export default async function(req: Request): Promise<Response> {
       status: 'active',
     });
 
-    return Response.json({ hasSubscriptions: subscriptions.data.length > 0, count: subscriptions.data.length });
+    return Response.json({
+      hasSubscriptions: subscriptions.data.length > 0,
+      count: subscriptions.data.length,
+      buildFeePaid: !!user.build_fee_paid
+    });
   } catch (error) {
     console.error("Check subscription status error:", error);
     return Response.json({ hasSubscriptions: false, count: 0 });

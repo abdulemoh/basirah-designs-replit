@@ -26,9 +26,14 @@ Deno.serve(async (req) => {
       const session = event.data.object;
       console.log("Payment completed for:", session.customer_email, "Plan:", session.metadata?.plan);
       const userId = session.metadata?.user_id;
+      const type = session.metadata?.type || "subscription";
       if (userId) {
-        await base44.asServiceRole.entities.User.update(userId, { membership_status: "active" });
-        console.log("Membership status set to active for user:", userId);
+        const updateData = { membership_status: "active" };
+        if (type === "build") {
+          updateData.build_fee_paid = true;
+        }
+        await base44.asServiceRole.entities.User.update(userId, updateData);
+        console.log("Membership status set to active for user:", userId, "type:", type);
       }
 
       // Send admin email alert about the purchase

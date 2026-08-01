@@ -16,12 +16,19 @@ export default function PricingSection() {
   const [loading, setLoading] = useState(null);
   const [portalLoading, setPortalLoading] = useState(false);
   const [hasSubscriptions, setHasSubscriptions] = useState(false);
+  const [buildFeePaid, setBuildFeePaid] = useState(false);
   const [websiteName, setWebsiteName] = useState("");
 
   useEffect(() => {
     base44.functions.invoke("checkSubscriptionStatus", {})
-      .then(res => setHasSubscriptions(res.data.hasSubscriptions))
-      .catch(() => setHasSubscriptions(false));
+      .then(res => {
+        setHasSubscriptions(res.data.hasSubscriptions);
+        setBuildFeePaid(!!res.data.buildFeePaid);
+      })
+      .catch(() => {
+        setHasSubscriptions(false);
+        setBuildFeePaid(false);
+      });
   }, []);
 
   const handleCheckout = async (type) => {
@@ -168,12 +175,20 @@ export default function PricingSection() {
 
             {/* Payment buttons */}
             <div className="grid grid-cols-1 gap-3">
-              <button
-                onClick={() => handleCheckout("build")}
-                disabled={loading !== null}
-                className="w-full py-4 bg-[#B8973A] text-[#FAF7F2] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#a5862f] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
-                {loading === "build" ? "Loading..." : "PAY BUILD FEE — $1,000"}
-              </button>
+              {buildFeePaid ? (
+                <button
+                  disabled
+                  className="w-full py-4 bg-transparent border border-[#B8973A]/40 text-[#B8973A]/50 text-sm font-semibold tracking-[0.2em] uppercase min-h-[48px] rounded-[10px] cursor-default">
+                  BUILD FEE PAID
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleCheckout("build")}
+                  disabled={loading !== null}
+                  className="w-full py-4 bg-[#B8973A] text-[#FAF7F2] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#a5862f] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
+                  {loading === "build" ? "Loading..." : "PAY BUILD FEE — $1,000"}
+                </button>
+              )}
 
               {hasSubscriptions ? (
                 <button

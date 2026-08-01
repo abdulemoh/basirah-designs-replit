@@ -16,6 +16,12 @@
         "cancelled"
       ],
       "description": "Whether the user has an active Standard Plan membership"
+    },
+    "build_fee_paid": {
+      "type": "boolean",
+      "title": "Build Fee Paid",
+      "default": false,
+      "description": "Whether the user has paid the one-time $1,000 build fee"
     }
   },
   "required": [
