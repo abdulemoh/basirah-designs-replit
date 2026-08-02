@@ -163,7 +163,7 @@ export default function PricingSection() {
             {/* Website name */}
             <div className="mb-6">
               <label className="block text-[#7A6E62] text-[10px] tracking-[0.3em] uppercase font-body mb-3">
-                What is your website domain called?
+                What will your website domain be called?
               </label>
               <input
                 type="text"
