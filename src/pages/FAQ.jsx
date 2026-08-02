@@ -18,6 +18,11 @@ const FAQS = [
   },
   {
     category: "Ownership & Hosting",
+    q: "Will a domain be included in my website?",
+    a: "No, a domain is not included. It is for you to decide your domain name and what you want it to be. You can find domains online for as little as a dollar a month. Once you have one, we will ask you for the information of your domain so we can connect it to your website."
+  },
+  {
+    category: "Ownership & Hosting",
     q: "What happens to my domain name if I cancel my subscription?",
     a: "Your domain name is registered separately and belongs to you. If you cancel, we'll help you point your domain wherever you'd like it to go."
   },

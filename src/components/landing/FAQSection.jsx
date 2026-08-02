@@ -9,6 +9,10 @@ const FAQS = [
     a: "No — we handle it all for you and save you the headache. Because your website is built on and tied to our managed hosting infrastructure, the design and code are maintained as part of your subscription rather than handed over as a separate asset. This is what lets us keep everything secure, updated, and online with no work on your end — the infrastructure, hosting, and ongoing upkeep are all included."
   },
   {
+    q: "Will a domain be included in my website?",
+    a: "No, a domain is not included. It is for you to decide your domain name and what you want it to be. You can find domains online for as little as a dollar a month. Once you have one, we will ask you for the information of your domain so we can connect it to your website."
+  },
+  {
     q: "What is in my monthly maintenance plan?",
     a: "Your Standard Plan monthly maintenance covers hosting your website, fixing bugs, performing requested changes, keeping everything updated, and providing priority support — all handled by our team so your site runs smoothly month after month."
   },
