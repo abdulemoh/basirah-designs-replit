@@ -5,8 +5,8 @@ import { Plus, ArrowRight } from "lucide-react";
 
 const FAQS = [
   {
-    q: "Do I get to own the website?",
-    a: "No — we handle it all for you and save you the headache. With our included hosting plan, we manage the infrastructure, hosting, and ongoing upkeep so your site stays online and secure without you lifting a finger."
+    q: "Do I get to own the website, and why not?",
+    a: "No — we handle it all for you and save you the headache. Because your website is built on and tied to our managed hosting infrastructure, the design and code are maintained as part of your subscription rather than handed over as a separate asset. This is what lets us keep everything secure, updated, and online with no work on your end — the infrastructure, hosting, and ongoing upkeep are all included."
   },
   {
     q: "What is in my monthly maintenance plan?",
