@@ -163,13 +163,13 @@ export default function PricingSection() {
             {/* Website name */}
             <div className="mb-6">
               <label className="block text-[#7A6E62] text-[10px] tracking-[0.3em] uppercase font-body mb-3">
-                What is your website called?
+                What is your website domain called?
               </label>
               <input
                 type="text"
                 value={websiteName}
                 onChange={(e) => setWebsiteName(e.target.value)}
-                placeholder="e.g. My Bakery"
+                placeholder="e.g. mybakery.com"
                 className="w-full px-4 py-3 bg-[#FAF7F2] border border-[#DDD4C0] rounded-sm text-[#1C1810] text-sm font-body focus:outline-none focus:border-[#B8973A] focus:ring-1 focus:ring-[#B8973A] transition-colors"
               />
             </div>
