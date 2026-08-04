@@ -10,7 +10,7 @@ const FAQS = [
   },
   {
     q: "Will a domain be included in my website?",
-    a: "No, a domain is not included. It is for you to decide your domain name and what you want it to be. You can find domains online for as little as a dollar a month. Once you have one, we will ask you for the information of your domain so we can connect it to your website."
+    a: "No, a domain is not included. It is for you to decide your domain name and what you want it to be. At porkbun.com, you can get cheap domains for your website! Once you have one, we will ask you for the information of your domain so we can connect it to your website."
   },
   {
     q: "What is in my monthly maintenance plan?",
