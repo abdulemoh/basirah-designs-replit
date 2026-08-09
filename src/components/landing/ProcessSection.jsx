@@ -43,7 +43,7 @@ export default function ProcessSection() {
 
             </h3>
             <p className="text-[#7A6E62] text-base leading-relaxed font-body font-light max-w-sm outline-none">
-              We take the technical heavy lifting entirely off your plate. From development to daily maintenance, we handle it all — no stress, just results.
+              We take the technical heavy lifting essentially off your plate. From development to daily maintenance, we handle it all — no stress, just results.
             </p>
           </motion.div>
 
