@@ -9,35 +9,35 @@ const services = [
  icon: Server,
  title: "Premium Cloud Hosting",
  subtitle: "Global Infrastructure",
- description: "Your site lives on enterprise-grade servers with 99.99% uptime, distributed across global edge nodes for millisecond load times.",
+ description: "Your site runs on managed cloud infrastructure built for fast, reliable load times, with edge delivery so your pages reach visitors quickly from anywhere.",
  span: "col-span-2 md:col-span-1 md:row-span-2"
 },
 {
  icon: Mail,
  title: "Professional Email",
  subtitle: "Brand Identity",
- description: "Custom domain email addresses that match your brand. Fully configured, secured, and managed.",
+ description: "Custom domain email addresses that match your brand. Fully configured and managed on your behalf.",
  span: "col-span-2 md:col-span-1"
 },
 {
  icon: Wrench,
  title: "Ongoing Maintenance",
  subtitle: "Continuous Evolution",
- description: "Regular updates, performance tuning, and content adjustments to keep your presence razor-sharp.",
+ description: "Regular updates, performance tuning, and content adjustments to keep your site running smoothly month after month.",
  span: "col-span-2 md:col-span-1"
 },
 {
  icon: Shield,
  title: "Security & Backups",
- subtitle: "Vault Protocol",
- description: "SSL encryption, automated daily backups, malware scanning, and proactive threat monitoring.",
+ subtitle: "Security First",
+ description: "SSL encryption and proactive security practices to keep your site protected and your data safe.",
  span: "col-span-2 md:col-span-1"
 },
 {
  icon: Headphones,
  title: "Dedicated Support",
  subtitle: "Priority Access",
- description: "Direct line to your dedicated team. No tickets, no queues — just answers when you need them.",
+ description: "A direct line to us. Reach out anytime and we'll respond as quickly as we can.",
  span: "col-span-2 md:col-span-1"
 }];
 
