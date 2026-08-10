@@ -11,6 +11,128 @@
       "format": "email",
       "title": "Email"
     },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "new",
+        "reviewing",
+        "accepted",
+        "declined"
+      ],
+      "default": "draft",
+      "title": "Status"
+    },
+    "business_name": {
+      "type": "string",
+      "title": "Business Name"
+    },
+    "business_description": {
+      "type": "string",
+      "title": "Business Description"
+    },
+    "three_things": {
+      "type": "string",
+      "title": "Three Things To Know"
+    },
+    "on_google_maps": {
+      "type": "boolean",
+      "title": "Listed On Google Maps"
+    },
+    "google_maps_link": {
+      "type": "string",
+      "title": "Google Maps Link"
+    },
+    "inspiration_websites": {
+      "type": "string",
+      "title": "Inspiration Websites"
+    },
+    "color_preferences": {
+      "type": "string",
+      "title": "Color Preferences"
+    },
+    "overall_feeling": {
+      "type": "string",
+      "title": "Overall Feeling"
+    },
+    "font_preferences": {
+      "type": "string",
+      "title": "Font Preferences"
+    },
+    "page_count": {
+      "type": "string",
+      "title": "Page Count"
+    },
+    "special_functionality": {
+      "type": "string",
+      "title": "Special Functionality"
+    },
+    "logo_url": {
+      "type": "string",
+      "title": "Logo URL"
+    },
+    "photo_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Photo URLs"
+    },
+    "has_website": {
+      "type": "boolean",
+      "title": "Has Website"
+    },
+    "current_website_link": {
+      "type": "string",
+      "title": "Current Website Link"
+    },
+    "current_website_likes_dislikes": {
+      "type": "string",
+      "title": "Current Website Likes Dislikes"
+    },
+    "website_type": {
+      "type": "string",
+      "title": "Website Type"
+    },
+    "main_goal": {
+      "type": "string",
+      "title": "Main Goal"
+    },
+    "other_goal": {
+      "type": "string",
+      "title": "Other Goal"
+    },
+    "social_links": {
+      "type": "string",
+      "title": "Social Media Links"
+    },
+    "testimonials": {
+      "type": "string",
+      "title": "Testimonials"
+    },
+    "contact_methods": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Contact Methods"
+    },
+    "contact_phone": {
+      "type": "string",
+      "title": "Business Phone"
+    },
+    "contact_email": {
+      "type": "string",
+      "title": "Business Email"
+    },
+    "contact_address": {
+      "type": "string",
+      "title": "Address"
+    },
+    "contact_hours": {
+      "type": "string",
+      "title": "Business Hours"
+    },
     "website": {
       "type": "string",
       "title": "Website"
@@ -18,17 +140,6 @@
     "message": {
       "type": "string",
       "title": "Message"
-    },
-    "status": {
-      "type": "string",
-      "enum": [
-        "new",
-        "reviewing",
-        "accepted",
-        "declined"
-      ],
-      "default": "new",
-      "title": "Status"
     }
   },
   "required": [
@@ -36,15 +147,10 @@
     "email"
   ],
   "rls": {
-    "create": {
-      "user_condition": {
-        "role": "admin"
-      }
-    },
     "read": {
       "$or": [
         {
-          "data.email": "{{user.email}}"
+          "created_by_id": "{{user.id}}"
         },
         {
           "user_condition": {
@@ -53,10 +159,18 @@
         }
       ]
     },
+    "create": {},
     "update": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
     },
     "delete": {
       "user_condition": {
