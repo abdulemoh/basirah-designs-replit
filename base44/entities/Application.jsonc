@@ -27,6 +27,11 @@
       "type": "string",
       "title": "Business Name"
     },
+    "business_email": {
+      "type": "string",
+      "format": "email",
+      "title": "Business Email"
+    },
     "business_description": {
       "type": "string",
       "title": "Business Description"
@@ -142,10 +147,7 @@
       "title": "Message"
     }
   },
-  "required": [
-    "name",
-    "email"
-  ],
+  "required": [],
   "rls": {
     "read": {
       "$or": [

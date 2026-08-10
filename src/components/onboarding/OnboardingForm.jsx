@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Upload, Check, ArrowLeft, ArrowRight, Loader2, X, FileCheck2 } from "lucide-react";
 
 const EMPTY = {
-  business_name: "", business_description: "", three_things: "",
+  business_name: "", business_email: "", business_description: "", three_things: "",
   on_google_maps: null, google_maps_link: "",
   inspiration_websites: "", color_preferences: "", overall_feeling: "", font_preferences: "",
   page_count: "", special_functionality: "", logo_url: "", photo_urls: [],
@@ -36,7 +36,7 @@ const MAIN_GOALS = [
   "Sell products", "Build credibility", "Provide information",
   "Showcase my work", "Other",
 ];
-const CONTACT_METHODS = ["Business phone", "Business email", "Address", "Business hours", "Social media"];
+const CONTACT_METHODS = ["Business phone", "Address", "Business hours", "Social media"];
 
 function Field({ label, required, children, hint }) {
   return (
@@ -143,6 +143,7 @@ export default function OnboardingForm() {
     const f = form;
     if (s === 1) {
       if (!f.business_name?.trim()) return "Please enter your business name.";
+      if (!f.business_email?.trim()) return "Please enter your business email.";
       if (!f.business_description?.trim()) return "Please describe your business.";
       if (!f.three_things?.trim()) return "Please share three things people should know.";
       if (f.on_google_maps === true && !f.google_maps_link?.trim()) return "Please paste your Google Maps link.";
@@ -170,7 +171,6 @@ export default function OnboardingForm() {
     if (s === 6) {
       if (!f.contact_methods || f.contact_methods.length === 0) return "Please select at least one contact method.";
       if (f.contact_methods.includes("Business phone") && !f.contact_phone?.trim()) return "Please add your business phone.";
-      if (f.contact_methods.includes("Business email") && !f.contact_email?.trim()) return "Please add your business email.";
       if (f.contact_methods.includes("Address") && !f.contact_address?.trim()) return "Please add your address.";
       if (f.contact_methods.includes("Business hours") && !f.contact_hours?.trim()) return "Please add your business hours.";
     }
@@ -362,6 +362,9 @@ export default function OnboardingForm() {
                 <Field label="What is your business name?" required>
                   <input className={inputCls} value={form.business_name} onChange={(e) => setField("business_name", e.target.value)} placeholder="Your business name" />
                 </Field>
+                <Field label="What is your business email?" required>
+                  <input type="email" className={inputCls} value={form.business_email} onChange={(e) => setField("business_email", e.target.value)} placeholder="hello@yourbusiness.com" />
+                </Field>
                 <Field label="What does your business do / sell / provide in 1–2 sentences?" required>
                   <textarea className={`${inputCls} resize-none`} rows={3} value={form.business_description} onChange={(e) => setField("business_description", e.target.value)} placeholder="We help people…" />
                 </Field>
@@ -524,11 +527,6 @@ export default function OnboardingForm() {
                 {form.contact_methods.includes("Business phone") && (
                   <Field label="Business phone" required>
                     <input className={inputCls} value={form.contact_phone} onChange={(e) => setField("contact_phone", e.target.value)} placeholder="(859) 000-0000" />
-                  </Field>
-                )}
-                {form.contact_methods.includes("Business email") && (
-                  <Field label="Business email" required>
-                    <input type="email" className={inputCls} value={form.contact_email} onChange={(e) => setField("contact_email", e.target.value)} placeholder="hello@yourbusiness.com" />
                   </Field>
                 )}
                 {form.contact_methods.includes("Address") && (

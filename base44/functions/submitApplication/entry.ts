@@ -43,6 +43,7 @@ Deno.serve(async (req) => {
       email: str(user.email || fields.email),
       status: "new",
       business_name: str(fields.business_name),
+      business_email: str(fields.business_email),
       business_description: str(fields.business_description),
       three_things: str(fields.three_things),
       on_google_maps: !!fields.on_google_maps,
@@ -116,6 +117,7 @@ Deno.serve(async (req) => {
           </div>
           ${section("Section 1 — Business Info",
             row("Business Name", safe(fields.business_name))
+            + row("Business Email", `<a href="mailto:${safe(fields.business_email)}" style="color:#B8973A;text-decoration:none;">${safe(fields.business_email)}</a>`)
             + row("What They Do", safe(fields.business_description).replace(/\n/g, "<br>"))
             + row("Three Things", safe(fields.three_things).replace(/\n/g, "<br>"))
             + row("On Google Maps", fields.on_google_maps ? "Yes" : (fields.on_google_maps == null ? "—" : "No"))
