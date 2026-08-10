@@ -115,7 +115,7 @@ export default function PricingSection() {
                 Standard Plan
               </h2>
               <p className="text-[#7A6E62] text-sm font-body">
-                <span className="text-xs">A clean website consisting of 4-5 pages that displays business info,  contact emails, and FAQs, already set up and handled for you. Includes a default maintenance plan that takes care of hosting your website, fixing bugs, performing requested changes, etc.</span>
+                <span className="text-xs">A clean website consisting of 5-15 pages that displays business info,  contact emails, and FAQs, already set up and handled for you. Includes a default maintenance plan that takes care of hosting your website, fixing bugs, performing requested changes, etc.</span>
               </p>
             </div>
 
