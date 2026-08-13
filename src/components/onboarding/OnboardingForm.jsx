@@ -183,7 +183,17 @@ export default function OnboardingForm() {
     setError("");
     await saveDraft(false);
     setStep((s) => Math.min(s + 1, 6));
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window !== "undefined") {
+      requestAnimationFrame(() => {
+        const el = document.getElementById("admission-form-top");
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < 0 || rect.top > window.innerHeight * 0.4) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
+      });
+    }
   };
 
   const back = () => {
@@ -290,7 +300,7 @@ export default function OnboardingForm() {
   const progress = step === 0 ? 0 : (step / 6) * 100;
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div id="admission-form-top" className="max-w-2xl mx-auto">
       {/* Progress + save indicator */}
       {step > 0 && (
         <div className="mb-8">
