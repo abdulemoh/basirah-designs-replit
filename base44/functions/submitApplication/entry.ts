@@ -160,14 +160,51 @@ Deno.serve(async (req) => {
       </div>
     </div>`;
 
-    await base44.asServiceRole.integrations.Core.SendEmail({
-      to: "abdullah.mohiuddin90@gmail.com",
+    const toEmail = "abdullah.mohiuddin90@gmail.com";
+    const sendBody = JSON.stringify({
+      to: toEmail,
       subject,
-      body: htmlBody,
+      html: htmlBody,
       from_name: "Basirah Designs"
     });
 
-    return Response.json({ success: true, id: record.id });
+    let gmailStatus = "ok";
+    try {
+      const token = await base44.asServiceRole.connectors.getConnection("gmail");
+      if (token) {
+        const res = await fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ raw: btoa(`From: Basirah Designs <me>\r\nTo: ${toEmail}\r\nSubject: ${subject}\r\nContent-Type: text/html; charset=UTF-8\r\nMIME-Version: 1.0\r\n\r\n${htmlBody}`) })
+        });
+        if (!res.ok) {
+          gmailStatus = `gmail_error_${res.status}`;
+          let errDetail = "";
+          try { errDetail = (await res.json())?.error?.message || ""; } catch { /* ignore */ }
+          console.error("Gmail send failed:", res.status, errDetail);
+        }
+      } else {
+        gmailStatus = "no_gmail_token";
+      }
+    } catch (gmailErr) {
+      gmailStatus = "gmail_exception";
+      console.error("Gmail send exception:", gmailErr);
+    }
+
+    // Fallback to the built-in integration if Gmail is unavailable.
+    if (gmailStatus !== "ok") {
+      await base44.asServiceRole.integrations.Core.SendEmail({
+        to: toEmail,
+        subject,
+        body: htmlBody,
+        from_name: "Basirah Designs"
+      });
+    }
+
+    return Response.json({ success: true, id: record.id, mail: gmailStatus });
   } catch (error) {
     console.error("Submit application error:", error);
     return Response.json({ error: error.message }, { status: 500 });
