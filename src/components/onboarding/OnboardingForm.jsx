@@ -571,7 +571,6 @@ export default function OnboardingForm({ onExit }) {
               <button
                 type="button"
                 onClick={back}
-                disabled={step <= 1}
                 className="flex items-center gap-2 text-[#7A6E62] text-xs tracking-[0.2em] uppercase font-body hover:text-[#1C1810] transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
                 <ArrowLeft className="w-4 h-4" /> Back
               </button>
