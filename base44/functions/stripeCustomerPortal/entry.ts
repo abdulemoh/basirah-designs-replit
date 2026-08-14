@@ -9,7 +9,8 @@ export default async function(req: Request): Promise<Response> {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const stripe = new Stripe(secrets.get("STRIPE_SECRET_KEY"));
-    const origin = req.headers.get("origin") || "http://localhost:3000";
+    // Use the server-side app URL only — the Origin header is attacker-controllable on direct calls.
+    const origin = Deno.env.get("BASE44_APP_URL") || "http://localhost:3000";
 
     // Find the Stripe customer by the user's email
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });

@@ -10,7 +10,7 @@ Deno.serve(async (req) => {
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const { type, website_name, origin: clientOrigin } = await req.json();
+    const { type, website_name } = await req.json();
     if (!type || !["build", "subscription"].includes(type)) {
       return Response.json({ error: 'Invalid purchase type' }, { status: 400 });
     }
@@ -56,11 +56,9 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Validate the redirect origin against a trusted allowlist to prevent open redirects.
-    // Only the request's own Origin header and the app's configured URL are trusted.
-    const trusted = [req.headers.get("origin"), Deno.env.get("BASE44_APP_URL")]
-      .filter((o): o is string => typeof o === "string" && /^https?:\/\//.test(o));
-    const origin = trusted.includes(clientOrigin) ? clientOrigin : (trusted[0] || "http://localhost:3000");
+    // Use the server-side app URL only — both the body origin and the request Origin
+    // header are attacker-controllable on direct HTTP calls to the function.
+    const origin = Deno.env.get("BASE44_APP_URL") || "http://localhost:3000";
 
     const isBuild = type === "build";
     const session = await stripe.checkout.sessions.create({
