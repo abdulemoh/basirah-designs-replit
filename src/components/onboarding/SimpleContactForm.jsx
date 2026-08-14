@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Check, Send } from "lucide-react";
+import { Loader2, Check, Send, Upload, X, FileCheck2 } from "lucide-react";
 
 const inputCls =
   "w-full bg-white border border-[#DDD4C0] rounded-md text-[#1C1810] text-base font-body py-3 px-4 focus:border-[#B8973A] focus:outline-none focus:ring-1 focus:ring-[#B8973A] transition-colors duration-300 placeholder:text-[#7A6E62]/60";
@@ -12,11 +12,31 @@ export default function SimpleContactForm() {
   const { toast } = useToast();
 
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [photoUrls, setPhotoUrls] = useState([]);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
 
   const setField = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
+
+  const uploadPhotos = async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    setUploading(true);
+    try {
+      const urls = [];
+      for (const file of files) {
+        const res = await base44.integrations.Core.UploadFile({ file });
+        urls.push(res.file_url);
+      }
+      setPhotoUrls((p) => [...p, ...urls]);
+    } catch {
+      toast({ title: "Upload failed", description: "Please try again.", variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -26,7 +46,7 @@ export default function SimpleContactForm() {
     setError("");
     setSubmitting(true);
     try {
-      const res = await base44.functions.invoke("sendApplicationAlert", form);
+      const res = await base44.functions.invoke("sendApplicationAlert", { ...form, photo_urls: photoUrls });
       if (res?.data?.error) throw new Error(res.data.error);
       setSent(true);
       toast({ title: "Message sent", description: "We'll get back to you shortly." });
@@ -73,7 +93,34 @@ export default function SimpleContactForm() {
         <label className="text-[#1C1810] text-sm font-body font-semibold">
           Your Question<span className="text-[#B8973A] ml-1">*</span>
         </label>
-        <textarea className={`${inputCls} resize-none`} rows={5} value={form.message} onChange={setField("message")} placeholder="Tell us who you are and what you'd like to know…" />
+        <textarea className={`${inputCls} resize-none`} rows={5} value={form.message} onChange={setField("message")} placeholder="Tell us who you are and what you'd like to know, or describe the changes you'd like made to your website…" />
+      </div>
+
+      {/* Image upload */}
+      <div className="space-y-2">
+        <label className="text-[#1C1810] text-sm font-body font-semibold">
+          Attach Images <span className="text-[#7A6E62] font-normal text-xs">(optional)</span>
+        </label>
+        <label className="flex items-center gap-3 bg-white border border-dashed border-[#DDD4C0] rounded-md p-3 cursor-pointer hover:border-[#B8973A] transition-colors w-fit">
+          {uploading ? <Loader2 className="w-5 h-5 text-[#B8973A] animate-spin" /> : <Upload className="w-5 h-5 text-[#B8973A]" />}
+          <span className="text-[#7A6E62] text-sm font-body">{uploading ? "Uploading…" : "Click to upload images"}</span>
+          <input type="file" accept="image/*" multiple className="hidden" onChange={uploadPhotos} disabled={uploading} />
+        </label>
+        {photoUrls.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-3">
+            {photoUrls.map((u, i) => (
+              <div key={i} className="relative w-20 h-20 rounded-md overflow-hidden border border-[#DDD4C0] group">
+                <img src={u} alt="attachment" className="w-full h-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => setPhotoUrls((p) => p.filter((_, idx) => idx !== i))}
+                  className="absolute top-1 right-1 w-5 h-5 rounded-full bg-[#1C1810]/80 text-[#FAF7F2] flex items-center justify-center hover:bg-[#1C1810]">
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {error && (

@@ -38,7 +38,7 @@ export default function ContactSection() {
               viewport={{ once: true }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
               className="text-[#B8973A] text-[9px] tracking-[0.4em] uppercase font-body mb-5">
-              {view === "questions" ? "Have a Question?" : "Let's Work Together"}
+              {view === "questions" ? "Questions & Requests" : "Let's Work Together"}
             </motion.p>
 
             <motion.h2
@@ -82,7 +82,7 @@ export default function ContactSection() {
             transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: 0.5 }}
             className="text-[#7A6E62] text-sm md:text-base font-body font-light max-w-md md:pb-2">
             {view === "questions" ? (
-              <span className="outline-none">Just have a quick question? Tell us who you are and what you'd like to know — we'll get back to you. When you're ready to start your project, scroll down to continue to the full onboarding form.</span>
+              <span className="outline-none">Use this form for any questions, or to request changes to your existing website — just tell us who you are and what you need, and attach images if it helps. This is not the onboarding form. When you're ready to start a new project, scroll down to continue to the full onboarding form.</span>
             ) : (
               <span className="outline-none">Fill out the onboarding form below to tell us about your business, your vision, and how you'd like your website built. A reference website helps us get it just right. Your progress saves automatically while you're signed in.</span>
             )}
