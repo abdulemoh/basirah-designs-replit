@@ -118,14 +118,7 @@ export default function ContactSection() {
           </>
         ) : (
           <div className="max-w-2xl mx-auto">
-            {/* Back to questions */}
-            <button
-              type="button"
-              onClick={goToQuestions}
-              className="flex items-center gap-2 text-[#7A6E62] text-xs tracking-[0.2em] uppercase font-body hover:text-[#B8973A] transition-colors mb-8">
-              <ArrowLeft className="w-4 h-4" /> Back to questions
-            </button>
-            <OnboardingForm />
+            <OnboardingForm onExit={goToQuestions} />
           </div>
         )}
       </div>

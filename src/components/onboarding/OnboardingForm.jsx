@@ -52,7 +52,7 @@ function Field({ label, required, children, hint }) {
 
 const inputCls = "w-full bg-white border border-[#DDD4C0] rounded-md text-[#1C1810] text-base font-body py-3 px-4 focus:border-[#B8973A] focus:outline-none focus:ring-1 focus:ring-[#B8973A] transition-colors duration-300 placeholder:text-[#7A6E62]/60";
 
-export default function OnboardingForm() {
+export default function OnboardingForm({ onExit }) {
   const prefersReducedMotion = useReducedMotion();
   const { toast } = useToast();
 
@@ -198,6 +198,10 @@ export default function OnboardingForm() {
 
   const back = () => {
     setError("");
+    if (step <= 1 && onExit) {
+      onExit();
+      return;
+    }
     setStep((s) => Math.max(s - 1, 0));
   };
 
