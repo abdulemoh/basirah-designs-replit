@@ -56,10 +56,11 @@ Deno.serve(async (req) => {
       }
     }
 
-    const requestOrigin = req.headers.get("origin");
-    // Return the user to the exact page they started on. window.location.origin
-    // comes from their own browser, so it's safe to trust for the success/cancel URLs.
-    const origin = clientOrigin || requestOrigin || Deno.env.get("BASE44_APP_URL") || "http://localhost:3000";
+    // Validate the redirect origin against a trusted allowlist to prevent open redirects.
+    // Only the request's own Origin header and the app's configured URL are trusted.
+    const trusted = [req.headers.get("origin"), Deno.env.get("BASE44_APP_URL")]
+      .filter((o): o is string => typeof o === "string" && /^https?:\/\//.test(o));
+    const origin = trusted.includes(clientOrigin) ? clientOrigin : (trusted[0] || "http://localhost:3000");
 
     const isBuild = type === "build";
     const session = await stripe.checkout.sessions.create({
