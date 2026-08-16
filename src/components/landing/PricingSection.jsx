@@ -198,18 +198,24 @@ export default function PricingSection() {
                   className="w-full py-4 bg-transparent border border-[#B8973A] text-[#B8973A] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#B8973A]/10 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
                   {portalLoading ? "Loading..." : "MANAGE SUBSCRIPTION"}
                 </button>
-              ) : (
+              ) : buildFeePaid ? (
                 <button
                   onClick={() => handleCheckout("subscription")}
                   disabled={loading !== null}
                   className="w-full py-4 bg-transparent border border-[#B8973A] text-[#B8973A] text-sm font-semibold tracking-[0.2em] uppercase hover:bg-[#B8973A]/10 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#B8973A] focus:ring-offset-2 focus:ring-offset-[#FAF7F2] min-h-[48px] rounded-[10px] disabled:opacity-60">
                   {loading === "subscription" ? "Loading..." : "START SUBSCRIPTION — $79/MO"}
                 </button>
+              ) : (
+                <button
+                  disabled
+                  className="w-full py-4 bg-transparent border border-[#DDD4C0] text-[#7A6E62]/70 text-sm font-semibold tracking-[0.2em] uppercase min-h-[48px] rounded-[10px] cursor-not-allowed">
+                  SUBSCRIPTION — FOR EXISTING CLIENTS
+                </button>
               )}
             </div>
 
             <p className="text-[#7A6E62] text-[11px] font-body font-light text-center mt-4 leading-snug">
-              These are purchased separately — pay the build fee and start the monthly service whenever you're ready.
+              The monthly service unlocks once the build fee is paid. The $79/mo plan begins when your site is ready to go live.
             </p>
           </div>
         </motion.div>
