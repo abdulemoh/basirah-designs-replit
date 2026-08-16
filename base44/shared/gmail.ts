@@ -40,10 +40,13 @@ export function detailsTable(rows: [string, string][]): string {
 }
 
 // Sends an HTML email from the connected Gmail account to any address.
-export async function sendGmailHtml(base44: any, to: string, subject: string, htmlBody: string): Promise<void> {
+// `bcc` optionally BCCs addresses (the recipient does not see them) — used to
+// send the admin an exact copy of every client receipt for chargeback evidence.
+export async function sendGmailHtml(base44: any, to: string, subject: string, htmlBody: string, bcc?: string[]): Promise<void> {
   const { accessToken } = await base44.asServiceRole.connectors.getConnection("gmail");
   const from = "Basirah Designs <abdullah.mohiuddin90@gmail.com>";
-  const rfc2822 = `From: ${from}\r\nTo: ${to}\r\nSubject: ${subject}\r\nMIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\n\r\n${htmlBody}`;
+  const bccHeader = bcc && bcc.length ? `\r\nBcc: ${bcc.join(",")}` : "";
+  const rfc2822 = `From: ${from}\r\nTo: ${to}${bccHeader}\r\nSubject: ${subject}\r\nMIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\n\r\n${htmlBody}`;
   const bytes = new TextEncoder().encode(rfc2822);
   let binary = "";
   for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);

@@ -37,65 +37,8 @@ Deno.serve(async (req) => {
         console.log("Membership status set to active for user:", userId, "type:", type);
       }
 
-      // Send admin email alert about the purchase
-      try {
-        const websiteName = session.metadata?.website_name || "Not provided";
-        const email = session.customer_email || "Unknown";
-        const purchaseLabel = type === "build"
-          ? "One-Time Build Fee ($1,000)"
-          : "Monthly Managed Service ($79/mo)";
-
-        const safeEmail = escapeHtml(email);
-        const safeWebsite = escapeHtml(websiteName);
-        const safePurchase = escapeHtml(purchaseLabel);
-        const cleanWebsite = String(websiteName).replace(/[\r\n\t<>]/g, " ").trim() || "Not provided";
-
-        const subject = `New Payment — ${type === "build" ? "Build Fee" : "Subscription"} from ${cleanWebsite}`;
-
-        const htmlBody = `
-        <div style="background-color: #FAF7F2; padding: 40px 20px; font-family: Arial, sans-serif;">
-          <div style="max-width: 560px; margin: 0 auto; background-color: #F5F0E8; border: 1px solid #E5DDD0; border-radius: 12px; overflow: hidden;">
-            <div style="background-color: #1C1810; padding: 32px 40px;">
-              <p style="color: #B8973A; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; margin: 0 0 8px 0;">Basirah Designs</p>
-              <h1 style="color: #FAF7F2; font-size: 24px; font-weight: 300; margin: 0;">New Payment Received</h1>
-            </div>
-            <div style="padding: 40px;">
-              <p style="color: #7A6E62; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 24px 0;">Purchase Details</p>
-              <div style="background-color: #FAF7F2; border: 1px solid #DDD4C0; border-radius: 8px; padding: 24px;">
-                <table style="width: 100%; border-collapse: collapse;">
-                  <tr>
-                    <td style="color: #7A6E62; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 0; width: 130px;">Customer</td>
-                    <td style="color: #1C1810; font-size: 16px; font-weight: 600; padding: 8px 0;">${safeEmail}</td>
-                  </tr>
-                  <tr>
-                    <td style="color: #7A6E62; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 0;">Website</td>
-                    <td style="color: #1C1810; font-size: 16px; padding: 8px 0;">${safeWebsite}</td>
-                  </tr>
-                  <tr>
-                    <td style="color: #7A6E62; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 0;">Purchase</td>
-                    <td style="color: #1C1810; font-size: 16px; padding: 8px 0;">${safePurchase}</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-            <div style="border-top: 1px solid #E5DDD0; padding: 24px 40px; text-align: center;">
-              <p style="color: #7A6E62; font-size: 11px; margin: 0;">&copy; ${new Date().getFullYear()} Basirah Designs</p>
-            </div>
-          </div>
-        </div>`;
-
-        await base44.asServiceRole.integrations.Core.SendEmail({
-          to: "abdullah.mohiuddin90@gmail.com",
-          subject,
-          body: htmlBody,
-          from_name: "Basirah Designs"
-        });
-        console.log("Purchase alert email sent for:", email, type);
-      } catch (emailError) {
-        console.error("Failed to send purchase alert email:", emailError);
-      }
-
-      // Send client receipt via Gmail (reaches any inbox, branded).
+      // Send client receipt via Gmail, with an exact Bcc copy to the admin
+      // (the admin copy is the chargeback-evidence receipt you can screenshot).
       try {
         const clientEmail = session.customer_email;
         if (clientEmail) {
@@ -118,7 +61,7 @@ Deno.serve(async (req) => {
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 24px 0 12px;">Per our agreement, the build fee covers the custom design and development of your website and is non-refundable once work has begun.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0 0 12px;"><strong>Next step:</strong> please complete the onboarding form so we have everything we need to begin. You can access it from your account at <a href="${escapeHtml(appUrl)}" style="color: #B8973A;">${escapeHtml(appUrl)}</a>.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0;">If you have any questions, just reply to this email or call us at 859-447-5611.</p>`;
-            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Build Fee Receipt", inner));
+            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Build Fee Receipt", inner), ["abdullah.mohiuddin90@gmail.com"]);
           } else {
             const subject = "Receipt from Basirah Designs — $79/mo Managed Service";
             const inner = `
@@ -133,7 +76,7 @@ Deno.serve(async (req) => {
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 24px 0 12px;">Your subscription renews automatically each month until cancelled.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0 0 12px;"><strong>Manage or cancel anytime:</strong> sign in at <a href="${escapeHtml(appUrl)}" style="color: #B8973A;">${escapeHtml(appUrl)}</a> and use the &ldquo;Manage Subscription&rdquo; button in the pricing section.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0;">Questions? Just reply to this email or call 859-447-5611.</p>`;
-            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Subscription Receipt", inner));
+            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Subscription Receipt", inner), ["abdullah.mohiuddin90@gmail.com"]);
           }
           console.log("Client receipt sent to:", clientEmail, "type:", type);
         }
@@ -168,7 +111,7 @@ Deno.serve(async (req) => {
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 24px 0 12px;">Your subscription will continue to renew automatically each month until cancelled.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0 0 12px;"><strong>Manage or cancel anytime:</strong> sign in at <a href="${escapeHtml(appUrl)}" style="color: #B8973A;">${escapeHtml(appUrl)}</a> and use the &ldquo;Manage Subscription&rdquo; button in the pricing section.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0;">Questions? Just reply to this email or call 859-447-5611.</p>`;
-            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Monthly Receipt", inner));
+            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Monthly Receipt", inner), ["abdullah.mohiuddin90@gmail.com"]);
             console.log("Monthly renewal receipt sent to:", clientEmail);
           }
         }
