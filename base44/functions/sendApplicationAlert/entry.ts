@@ -27,7 +27,7 @@ export default async function(req: Request): Promise<Response> {
     const safeWebsite = escapeHtml(website || "None provided");
     const safeMessage = escapeHtml(message || "No additional details provided.");
 
-    const adminEmail = "abdullah.mohiuddin90@gmail.com";
+    const adminEmail = "basirahdesigns@gmail.com";
     // Strip control characters (CRLF/newlines/tabs) to prevent header injection
     const cleanName = String(name || "—").replace(/[\r\n\t<>]/g, " ").trim() || "—";
     const subject = `New Project Application from ${cleanName}`;

@@ -160,7 +160,7 @@ Deno.serve(async (req) => {
       </div>
     </div>`;
 
-    const toEmail = "abdullah.mohiuddin90@gmail.com";
+    const toEmail = "basirahdesigns@gmail.com";
     const sendBody = JSON.stringify({
       to: toEmail,
       subject,

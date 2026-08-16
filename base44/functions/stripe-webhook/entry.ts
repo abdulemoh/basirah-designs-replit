@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 24px 0 12px;">Per our agreement, the build fee covers the custom design and development of your website and is non-refundable once work has begun.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0 0 12px;"><strong>Next step:</strong> please complete the onboarding form so we have everything we need to begin. You can access it from your account at <a href="${escapeHtml(appUrl)}" style="color: #B8973A;">${escapeHtml(appUrl)}</a>.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0;">If you have any questions, just reply to this email or call us at 859-447-5611.</p>`;
-            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Build Fee Receipt", inner), ["abdullah.mohiuddin90@gmail.com"]);
+            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Build Fee Receipt", inner), ["basirahdesigns@gmail.com"]);
           } else {
             const subject = "Receipt from Basirah Designs — $79/mo Managed Service";
             const inner = `
@@ -76,7 +76,7 @@ Deno.serve(async (req) => {
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 24px 0 12px;">Your subscription renews automatically each month until cancelled.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0 0 12px;"><strong>Manage or cancel anytime:</strong> sign in at <a href="${escapeHtml(appUrl)}" style="color: #B8973A;">${escapeHtml(appUrl)}</a> and use the &ldquo;Manage Subscription&rdquo; button in the pricing section.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0;">Questions? Just reply to this email or call 859-447-5611.</p>`;
-            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Subscription Receipt", inner), ["abdullah.mohiuddin90@gmail.com"]);
+            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Subscription Receipt", inner), ["basirahdesigns@gmail.com"]);
           }
           console.log("Client receipt sent to:", clientEmail, "type:", type);
         }
@@ -111,7 +111,7 @@ Deno.serve(async (req) => {
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 24px 0 12px;">Your subscription will continue to renew automatically each month until cancelled.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0 0 12px;"><strong>Manage or cancel anytime:</strong> sign in at <a href="${escapeHtml(appUrl)}" style="color: #B8973A;">${escapeHtml(appUrl)}</a> and use the &ldquo;Manage Subscription&rdquo; button in the pricing section.</p>
               <p style="color: #1C1810; font-size: 15px; line-height: 1.7; margin: 0;">Questions? Just reply to this email or call 859-447-5611.</p>`;
-            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Monthly Receipt", inner), ["abdullah.mohiuddin90@gmail.com"]);
+            await sendGmailHtml(base44, clientEmail, subject, brandedShell("Your Monthly Receipt", inner), ["basirahdesigns@gmail.com"]);
             console.log("Monthly renewal receipt sent to:", clientEmail);
           }
         }
