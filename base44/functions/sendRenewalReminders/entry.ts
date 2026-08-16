@@ -8,8 +8,16 @@ import { sendGmailHtml, brandedShell, detailsTable, escapeHtml } from '../../sha
 // so a reminder is sent at most once per billing period.
 export default async function(req: Request): Promise<Response> {
   try {
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"));
     const base44 = createClientFromRequest(req);
+
+    // Only allow the platform's scheduled workflow to invoke this.
+    // Anonymous external HTTP requests are rejected.
+    const isAuthed = await base44.auth.isAuthenticated();
+    if (!isAuthed) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"));
 
     const now = Math.floor(Date.now() / 1000);
     const windowSeconds = 3 * 24 * 60 * 60; // 3 days
