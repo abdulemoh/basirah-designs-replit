@@ -1,0 +1,44 @@
+{
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 9 * * *",
+      "one_time_date": null,
+      "timezone": "America/New_York",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "renewal_reminder",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "send_reminders": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "sendRenewalReminders"
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Send renewal reminders",
+            "description": "Emails clients 3 days before renewal"
+          }
+        }
+      }
+    ]
+  },
+  "description": "Sends a pre-charge reminder email to clients 3 days before their monthly subscription renews, with a manage/cancel link.",
+  "name": "Renewal Reminder"
+}
