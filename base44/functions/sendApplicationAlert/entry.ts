@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
+import { sendGmailHtml } from '../../shared/gmail.ts';
 
 export default async function(req: Request): Promise<Response> {
   try {
@@ -73,12 +74,7 @@ export default async function(req: Request): Promise<Response> {
       </div>
     </div>`;
 
-    await base44.asServiceRole.integrations.Core.SendEmail({
-      to: adminEmail,
-      subject: subject,
-      body: htmlBody,
-      from_name: "Basirah Designs"
-    });
+    await sendGmailHtml(base44, adminEmail, subject, htmlBody);
 
     return Response.json({ success: true });
   } catch (error) {
